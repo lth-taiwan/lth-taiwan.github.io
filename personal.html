@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>Personal</title>
+
+<style>
+body {
+  margin: 0;
+  background: #000;
+  color: #ffcc98;
+}
+
+.subnav {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  flex-wrap: wrap;
+}
+
+.subnav img {
+  cursor: pointer;
+}
+
+#content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="subnav">
+  <img src="person9.png"  data-page="common_fragment.html">
+  <img src="person30.png" data-page="personal_list_fragment.html">
+  <img src="person31.png" data-page="experience_fragment.html">
+  <img src="person1.png"  data-page="research_fragment.html">
+  <img src="person2.png"  data-page="paper_fragment.html">
+  <img src="person3.png"  data-page="service_fragment.html">
+</div>
+
+<div id="content"></div>
+
+<script>
+const content = document.getElementById('content');
+
+function load(page) {
+  fetch(page)
+    .then(r => r.text())
+    .then(html => content.innerHTML = html);
+}
+
+document.querySelectorAll('.subnav img').forEach(img => {
+  img.onclick = () => load(img.dataset.page);
+});
+
+load('common_fragment.html');
+</script>
+
+</body>
+</html>
