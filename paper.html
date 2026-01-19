@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<title>Publications</title>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+
+<style>
+body{
+  background:#000;
+  color:#ffcc99;
+  font-family:"Century Gothic",Arial,sans-serif;
+  line-height:1.6;
+}
+
+.section-title{
+  background:#ffcc99;
+  color:#000;
+  padding:6px 14px;
+  display:inline-block;
+  margin:20px 0 10px 0;
+}
+
+.filter-bar{
+  margin:20px 0;
+  font-size:14px;
+}
+
+.filter-bar button{
+  background:#222;
+  color:#ffcc99;
+  border:1px solid #444;
+  padding:4px 10px;
+  margin:3px;
+  cursor:pointer;
+}
+
+.filter-bar button.active{
+  background:#ffcc99;
+  color:#000;
+}
+
+.paper{
+  margin-bottom:22px;
+}
+
+.paper-title{
+  color:#ffffff;
+  font-weight:normal;
+}
+
+.year,
+.link{
+  color:#ffcc99;
+  text-decoration:none;
+}
+
+.link:hover{
+  text-decoration:underline;
+}
+
+.author u{
+  text-decoration:underline;
+}
+
+ol{
+  padding-left:22px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+<div class="section-title">[ PUBLICATIONS ]</div>
+
+<div class="filter-bar">
+  <strong>TYPE:</strong>
+  <button :class="{active:filterType==='ALL'}" @click="filterType='ALL'">ALL</button>
+  <button :class="{active:filterType==='JOURNAL'}" @click="filterType='JOURNAL'">JOURNAL PAPERS</button>
+  <button :class="{active:filterType==='CONFERENCE'}" @click="filterType='CONFERENCE'">CONFERENCE PAPERS</button>
+  
+  <!-- 關鍵字搜尋 -->
+  &nbsp;&nbsp;
+  <strong>KEYWORD:</strong>
+  <input
+    type="text"
+    v-model="keyword"
+    placeholder="search..."
+    style="
+      background:#111;
+      color:#ffcc99;
+      border:1px solid #444;
+      padding:4px 8px;
+      width:200px;
+    "
+  >
+    
+  <br><br>
+  <strong>YEAR:</strong>
+  <button :class="{active:filterYear==='ALL'}" @click="filterYear='ALL'">ALL</button>
+  <button v-for="y in years" :key="y" :class="{active:filterYear===y}" @click="filterYear=y">{{ y }}</button>
+</div>
+
+
+
+<ol>
+<li v-for="p in filteredPapers" class="paper">
+
+  <div class="author">
+    <span v-for="(a,i) in p.authors">
+      <u v-if="a.includes('Huang L-T')">{{ a }}</u>
+      <span v-else>{{ a }}</span>
+      <span v-if="i<p.authors.length-1">, </span>
+    </span>
+  </div>
+
+  <div class="paper-title">{{ p.title }}</div>
+
+  <div>
+    <i>{{ p.venue }}</i>,
+    <span class="year">{{ p.year }}</span>,
+    {{ p.detail }}
+  </div>
+
+  <div v-if="p.doi || p.pmid">
+    [
+    <a v-if="p.doi" class="link" :href="'https://doi.org/'+p.doi" target="_blank">DOI</a>
+    <span v-if="p.doi && p.pmid"> / </span>
+    <a v-if="p.pmid" class="link" :href="'https://pubmed.ncbi.nlm.nih.gov/'+p.pmid" target="_blank">PMID</a>
+    ]
+  </div>
+
+</li>
+</ol>
+
+</div>
+
+<script>
+const { createApp } = Vue;
+
+createApp({
+  data(){
+    return{
+      filterType:'ALL',
+      filterYear:'ALL',
+      keyword:'',
+
+
+      papers:[
+  {
+    type:"JOURNAL",
+    year:2016,
+    authors:["Gromiha MM","Anoosha P","Huang L-T"],
+    title:"Applications of protein thermodynamic database for understanding protein mutant stability and designing stable mutants.",
+    venue:"Methods in Molecular Biology",
+    detail:"1415:71-89. ISBN: 978-1-4939-3570-3.",
+    doi:"10.1007/978-1-4939-3572-7_4"
+  },
+  {
+    type:"JOURNAL",
+    year:2015,
+    authors:["Anoosha P","Huang L-T","Sakthivel R","Karunagaran D","Gromiha MM"],
+    title:"Discrimination of driver and passenger mutations in epidermal growth factor receptor in cancer.",
+    venue:"Mutation Research: Fundamental and Molecular Mechanisms of Mutagenesis",
+    detail:"780:24-34.",
+    doi:"10.1016/j.mrfmmm.2015.07.009"
+  },
+  {
+    type:"JOURNAL",
+    year:2015,
+    authors:["Huang L-T*","Wu C-C","Lai L-F","Li Y-J"],
+    title:"Improving the mapping of Smith-Waterman sequence database searches onto CUDA-enabled GPUs.",
+    venue:"BioMed Research International",
+    detail:"2015(Article ID: 185179):1-10.",
+    doi:"10.1155/2015/185179"
+  },
+  {
+    type:"JOURNAL",
+    year:2015,
+    authors:["Huang L-T*","Lai Y-T"],
+    title:"A bioinformatics approach to investigating significant genes of hepatocellular carcinoma from microarray expression data.",
+    venue:"International Federation for Medical and Biological Engineering Proceedings",
+    detail:"52:146-149.",
+    doi:"10.1007/978-3-319-19452-3_39"
+  },
+  {
+    type:"JOURNAL",
+    year:2014,
+    authors:["Huang L-T*"],
+    title:"Finding simple rules for discriminating folding rate change upon single mutation by statistical and learning methods.",
+    venue:"Protein and Peptide Letters",
+    detail:"21(8):743-751.",
+    doi:"10.2174/09298665113209990070",
+    pmid:"23859003"
+  },
+  {
+    type:"JOURNAL",
+    year:2014,
+    authors:["Wu C-C","Lai L-F","Gromiha MM","Huang L-T*"],
+    title:"High throughput computing to improve efficiency of predicting protein stability change upon mutation.",
+    venue:"International Journal of Data Mining and Bioinformatics",
+    detail:"10(2):206-224.",
+    doi:"10.1504/IJDMB.2014.064011"
+  },
+  {
+    type:"JOURNAL",
+    year:2014,
+    authors:["Huang L-T*","Wu C-C","Lai L-F","Gromiha MM","Wang C-S","Chen Y-R"],
+    title:"Data mining application in biomedical informatics for probing into protein stability upon double mutation.",
+    venue:"Applied Mathematics and Information Sciences",
+    detail:"8(1L):125-132.",
+    doi:"10.12785/amis/081L16"
+  },
+  {
+    type:"JOURNAL",
+    year:2013,
+    authors:["Huang H-L","Huang L-T","Cheng Y-S"],
+    title:"A novel SNP marker of ovalbumin gene in association with duck hatchability.",
+    venue:"Theriogenology",
+    detail:"79(8):1218-1223.",
+    doi:"10.1016/j.theriogenology.2013.02.021",
+    pmid:"23528974"
+  },
+  {
+    type:"JOURNAL",
+    year:2013,
+    authors:["Jhan S-S","Huang L-T","Lai L-F","Wei K-C","Wei T-Y","Wu C-C"],
+    title:"On mapping the sorted-set intersection problem onto a graphics processing unit.",
+    venue:"Lecture Notes in Electrical Engineering",
+    detail:"234:153-159.",
+    doi:"10.1007/978-1-4614-6747-2_19"
+  },
+  {
+    type:"JOURNAL",
+    year:2012,
+    authors:["Huang L-T","Gromiha MM"],
+    title:"Real value prediction of protein folding rate change upon point mutation.",
+    venue:"Journal of Computer-Aided Molecular Design",
+    detail:"26(3):339-347.",
+    doi:"10.1007/s10822-012-9560-3",
+    pmid:"22426539"
+  },
+  {
+    type:"JOURNAL",
+    year:2012,
+    authors:["Wu C-C","Lai L-F","Huang L-T","Chen M-L"],
+    title:"Performance evaluation of enhancement of the layered self-scheduling approach for heterogeneous multicore cluster systems.",
+    venue:"Journal of Supercomputing",
+    detail:"62(1):399-430.",
+    doi:"10.1007/s11227-011-0726-x"
+  },
+  {
+    type:"JOURNAL",
+    year:2011,
+    authors:["Gromiha MM","Huang L-T"],
+    title:"Machine learning algorithms for predicting protein folding rates and stability of mutant proteins: comparison with statistical methods.",
+    venue:"Current Protein and Peptide Science",
+    detail:"12(6):490-502.",
+    doi:"10.2174/138920311796957630",
+    pmid:"21787301"
+  },
+  {
+    type:"JOURNAL",
+    year:2011,
+    authors:["Huang L-T","Gromiha MM"],
+    title:"Sequence based prediction of protein folding rate change upon point mutation.",
+    venue:"Bioinformatics",
+    detail:"26(17):2121-2127.",
+    doi:"10.1093/bioinformatics/btq350",
+    pmid:"20616385"
+  },
+  {
+    type:"JOURNAL",
+    year:2010,
+    authors:["Huang L-T","Lai L-F","Gromiha MM"],
+    title:"Human-readable rule generator for integrating amino acid sequence information and stability of mutant proteins.",
+    venue:"IEEE/ACM Transactions on Computational Biology and Bioinformatics",
+    detail:"7(4):681-687.",
+    doi:"10.1109/TCBB.2008.128",
+    pmid:"21030735"
+  },
+  {
+    type:"JOURNAL",
+    year:2009,
+    authors:["Huang L-T","Gromiha MM"],
+    title:"Reliable prediction of protein thermostability change upon double mutation from amino acid sequence.",
+    venue:"Bioinformatics",
+    detail:"25(17):2181-2187.",
+    doi:"10.1093/bioinformatics/btp370",
+    pmid:"19535532"
+  },
+  {
+    type:"JOURNAL",
+    year:2008,
+    authors:["Huang L-T","Gromiha MM"],
+    title:"Analysis and prediction of protein folding rates using quadratic response surface models.",
+    venue:"Journal of Computational Chemistry",
+    detail:"29(10):1675-1683.",
+    doi:"10.1002/jcc.20925",
+    pmid:"18351617"
+  },
+  {
+    type:"JOURNAL",
+    year:2007,
+    authors:["Huang L-T","Gromiha MM","Ho S-Y"],
+    title:"iPTREE-STAB: interpretable decision tree based method for predicting protein stability changes upon mutations.",
+    venue:"Bioinformatics",
+    detail:"23(10):1292-1293.",
+    doi:"10.1093/bioinformatics/btm100",
+    pmid:"17379687"
+  },
+  {
+    type:"JOURNAL",
+    year:2006,
+    authors:["Huang L-T","Gromiha MM","Hwang S-F","Ho S-Y"],
+    title:"Knowledge acquisition and development of accurate rules for predicting protein stability changes.",
+    venue:"Computational Biology and Chemistry",
+    detail:"30(6):408-415.",
+    doi:"10.1016/j.compbiolchem.2006.06.004",
+    pmid:"17000135"
+  },
+  {
+  type:"CONFERENCE",
+  year:2014,
+  authors:["Huang L-T","Jhan S-S","Li Y-J","Wu C-C"],
+  title:"Solving the Permutation Problem Efficiently for Tabu Search on CUDA GPUs.",
+  venue:"Proceedings of the 6th International Workshop on Computational Collective Intelligence Technologies and Applications (ICCCI 2014)",
+  detail:"24–26 September 2014; Seoul, Korea."
+},
+{
+  type:"CONFERENCE",
+  year:2014,
+  authors:["Wu C-C","Huang L-T","Lai L-F","Li Y-J"],
+  title:"Improving the Mapping of the Smith-Waterman Sequence Database Search Algorithm onto CUDA GPUs.",
+  venue:"Proceedings of the 10th International Symposium on Bioinformatics Research and Applications (ISBRA 2014)",
+  detail:"28–30 June 2014; Zhangjiajie, China."
+},
+{
+  type:"CONFERENCE",
+  year:2013,
+  authors:["Lai L-F","Wu C-C","Hsieh Y-T","Huang L-T"],
+  title:"A Fuzzy Query Approach to Human Resource Web Services.",
+  venue:"Proceedings of the 9th International Workshop on Service-Oriented Applications, Integration and Collaboration (SOAIC’13, in conjunction with ICEBE 2013)",
+  detail:"11–13 September 2013; Coventry, United Kingdom."
+},
+{
+  type:"CONFERENCE",
+  year:2013,
+  authors:["Wu C-C","Huang L-T","Li Y-J"],
+  title:"Optimizing Tabu Search for the Permutation Flowshop Scheduling Problem on a GPU.",
+  venue:"Proceedings of the 2013 Symposium on Cloud and Services Computing (SC² 2013)",
+  detail:"14–15 March 2013; Tainan, Taiwan."
+},
+{
+  type:"CONFERENCE",
+  year:2012,
+  authors:["Lai L-F","Wu C-C","Huang L-T"],
+  title:"Human Resource Web Services through the Fuzzy Query Mechanism and the Service-Oriented Architecture.",
+  venue:"Proceedings of the 13th ACIS International Conference on Software Engineering, Artificial Intelligence, Networking and Parallel/Distributed Computing (SNPD 2012)",
+  detail:"8–10 August 2012; Kyoto, Japan. 2012:105–163."
+},
+{
+  type:"CONFERENCE",
+  year:2011,
+  authors:["Lai L-F","Wu C-C","Lin P-Y","Huang L-T"],
+  title:"Developing a Fuzzy Search Engine Based on Fuzzy Ontology and Semantic Search.",
+  venue:"Proceedings of the 2011 IEEE International Conference on Fuzzy Systems (FUZZ-IEEE 2011)",
+  detail:"27–30 June 2011; Taipei, Taiwan."
+},
+{
+  type:"CONFERENCE",
+  year:2011,
+  authors:["Wu C-C","Lai L-F","Huang L-T","Jhan S-S","Lu C"],
+  title:"Parallel TID-Based Maximal Frequent Itemsets Mining Algorithms with Dynamic Task Scheduling for Heterogeneous Cluster Systems.",
+  venue:"Proceedings of the First Symposium on Cloud and Service Computing (SC2-2011)",
+  detail:"20–21 January 2011; Taipei, Taiwan."
+},
+{
+  type:"CONFERENCE",
+  year:2010,
+  authors:["Wu C-C","Huang L-T","Lai L-F"],
+  title:"A Batch Fuzzy Query System for Predicting Protein Stability Changes.",
+  venue:"Proceedings of the 2nd International Conference on Computer Engineering and Applications (ICCEA 2010)",
+  detail:"19–21 March 2010; Bali Island, Indonesia. 2010:(1)257–261. ISBN: 978-1-4244-7315-1."
+},
+{
+  type:"CONFERENCE",
+  year:2010,
+  authors:["Lin Y-C","Lai L-F","Wu C-C","Huang L-T"],
+  title:"A Self-Adaptation Approach to Fuzzy-Go Search Engine.",
+  venue:"Proceedings of the 2010 International Computer Symposium (ICS 2010)",
+  detail:"16–18 December 2010; Tainan, Taiwan."
+},
+{
+  type:"CONFERENCE",
+  year:2010,
+  authors:["Lee T-M","Lee C-H","Feng W-T","Lai L-F","Huang L-T"],
+  title:"A Three-Tiered Model Based on Conceptual Graphs to Knowledge Sharing between Intelligent Agents",
+  venue:"Proceedings of the 2010 International Information Communication Conference (ICC 2010)",
+  detail:"14 November 2010; Changhua, Taiwan. ISBN: 978-986-6468-17-9."
+},
+{
+  type:"CONFERENCE",
+  year:2010,
+  authors:["Huang L-T","Lai L-F","Wu C-C"],
+  title:"Predicting Protein Stability Change upon Double Mutation from Partial Sequence Information Using Data Mining Approach.",
+  venue:"Proceedings of the 6th International Conference on Intelligent Computing (ICIC 2010)",
+  detail:"18–21 August 2010; Changsha, China. ISBN: 978-364-2149-21-4."
+},
+{
+  type:"CONFERENCE",
+  year:2009,
+  authors:["Wu C-C","Huang L-T","Lai L-F","Chen M-L"],
+  title:"Enhanced Parallel Loop Self-Scheduling for Heterogeneous Multi-Core Cluster Systems.",
+  venue:"Proceedings of the 10th International Symposium on Pervasive Systems, Algorithms, and Networks (I-SPAN 2009)",
+  detail:"14–16 December 2009; Kaoshiung, Taiwan. ISBN: 978-076-9539-08-9."
+},
+{
+  type:"CONFERENCE",
+  year:2009,
+  authors:["Wu C-C","Lai L-F","Huang L-T","Chang W-C"],
+  title:"A Parallel CLIPS-based Course Timetabling Expert System",
+  venue:"Proceedings of the 2009 National Computer Symposium (NCS 2009)",
+  detail:"27–28 November 2009; Taipei, Taiwan. 2009:307–315."
+},
+{
+  type:"CONFERENCE",
+  year:2009,
+  authors:["Lin H-C","Huang L-T","Lai L-F","Chi Y-F"],
+  title:"A Remote Automated System for a Case Study of Dissolved Oxygen Monitoring and Control",
+  venue:"Proceedings of IEEE International Symposium on Industrial Electronics (ISIE 2009)",
+  detail:"5–8 July 2009; Seoul, Korea. 2009:2184–2189. ISBN: 978-142-4443-49-9."
+},
+{
+  type:"CONFERENCE",
+  year:2008,
+  authors:["Gromiha MM","Huang L-T","Lai L-F"],
+  title:"Sequence Based Prediction of Protein Mutant Stability and Discrimination of Thermophilic Proteins",
+  venue:"Proceedings of the 3rd International Conference on Pattern Recognition in Bioinformatics (PRIB 2008)",
+  detail:"15–17 October 2008; Melbourne, Australia. ISBN: 978-354-0884-34-7."
+},
+{
+  type:"CONFERENCE",
+  year:2007,
+  authors:["Ho S-J","Chang C-Y","Huang L-T","Hwang S-F","Ho S-Y"],
+  title:"Acquisition of Rule-based Knowledge for Analyzing DNA-binding Sites in Proteins",
+  venue:"Proceedings of the 2nd International Conference on Scalable Information Systems (INFOSCALE 2007)",
+  detail:"6–8 June 2007; Suzhou, China. 2007:39. ISBN: 978-159-5937-57-5."
+},
+{
+  type:"CONFERENCE",
+  year:2006,
+  authors:["Lai L-F","Hsueh N-L","Huang L-T","Chen T-C"],
+  title:"An Artificial Intelligence Approach to Course Timetabling",
+  venue:"Proceedings of the 18th IEEE International Conference on Tools with Artificial Intelligence (ICTAI 2006)",
+  detail:"13–15 November 2006; Virginia, USA. 2006:389–396. ISBN: 978-076-9527-28-4."
+},
+{
+  type:"CONFERENCE",
+  year:2005,
+  authors:["Huang L-T","Huang W-L","Ho S-Y","Hwang S-F"],
+  title:"Interpretable Prediction of Protein Stability Changes upon Mutation by Using Decision Tree",
+  venue:"Proceedings of the 2005 IEEE Symposium on Computational Intelligence in Bioinformatics and Computational Biology (CIBCB 2005)",
+  detail:"14–15 November 2005; San Diego, USA. 2005:1–5."
+},
+{
+  type:"CONFERENCE",
+  year:2005,
+  authors:["Huang W-L","Huang L-T","Hwang S-F","Ho S-Y"],
+  title:"Prediction of Enzyme Sub-Family Classes Using GA-Designed Nearest Neighbor Method",
+  venue:"Proceedings of the 12th International Conference on BioMedical Engineering (ICBME 2005)",
+  detail:"7–10 December 2005; Singapore. 2005:109. ISBN: 981-0545-70-3."
+},
+{
+  type:"CONFERENCE",
+  year:2005,
+  authors:["Ho S-Y","Chang C-Y","Huang L-T","Huang W-L","Hwang S-F"],
+  title:"Accurate Prediction and Analysis of DNA-Binding Proteins Using a Rule-Based Decision Tree System",
+  venue:"Proceedings of the 12th International Conference on BioMedical Engineering (ICBME 2005)",
+  detail:"7–10 December 2005; Singapore. 2005:108. ISBN: 981-0545-70-3."
+},
+{
+  type:"CONFERENCE",
+  year:2002,
+  authors:["Huang L-T","Jan J-K"],
+  title:"A Copyright Protection Technique by Using Hybrid Domains",
+  venue:"Proceedings of the 2002 International Computer Symposium (ICS 2002)",
+  detail:"18–21 December 2002; Hualien, Taiwan. 2002, 2:1040–1046."
+}
+
+
+
+]/* ← 此處可繼續逐年往下貼 2014–2006 所有 Journal Papers */
+
+            
+    }
+  },
+
+  computed:{
+    years(){
+      return [...new Set(this.papers.map(p=>p.year))].sort((a,b)=>b-a)
+    },
+    filteredPapers(){
+  return this.papers
+    .filter(p=>{
+      const matchType =
+        this.filterType === 'ALL' || p.type === this.filterType;
+
+      const matchYear =
+        this.filterYear === 'ALL' || p.year === this.filterYear;
+
+      const kw = this.keyword.trim().toLowerCase();
+
+      const fullText =
+        p.authors.join(' ') + ' ' +
+        p.title + ' ' +
+        p.venue + ' ' +
+        (p.detail || '') + ' ' +
+        p.year;
+
+      const matchKeyword =
+        kw === '' || fullText.toLowerCase().includes(kw);
+
+      return matchType && matchYear && matchKeyword;
+    })
+    .sort((a,b)=>b.year - a.year);
+}
+
+  }
+}).mount("#app");
+</script>
+
+</body>
+</html>
