@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="big5">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <base target="_self">
+  <title></title>
+
+  <style>
+    body{
+      margin:0;
+      background:#000;
+      color:#000;
+      text-align:center;
+    }
+
+    img{
+      max-width:100%;
+      height:auto;
+      border:0;
+    }
+
+    /* Welcome 圖區 */
+    .top{
+      margin-top:18px;
+      margin-bottom:0;
+    }
+
+    /* 語言切換區 */
+    .lang{
+      margin-top:-5px;
+      margin-bottom:20px;
+    }
+
+    /* 主導覽列：保留原始圖示風格,僅現代化排版 */
+    .nav{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      align-items:center;
+      gap:24px;
+      margin-top:0;
+      padding-bottom:14px;
+    }
+
+    .nav a img{
+      height:auto;
+      max-width:100%;
+    }
+  </style>
+</head>
+
+<body link="#000000" vlink="#000000" alink="#000000" text="#000000">
+
+  <!-- Welcome -->
+  <p class="top" align="center">
+    <img src="welcome.jpg" width="475" height="62" alt="">
+  </p>
+
+  <!-- English version -->
+  <p class="lang" align="center">
+    <a target="_parent" href="index.htm">
+      <img src="english_version.jpg" width="141" height="26" alt="">
+    </a>
+  </p>
+
+  <!-- 主選單：完全保留原始圖示,僅刪除 photo -->
+  <div class="nav">
+
+    <a href="news.html" target="f2">
+      <img src="news.jpg" width="136" height="34" alt="">
+    </a>
+
+    <a href="personal.html" target="f2">
+      <img src="person.jpg" width="137" height="34" alt="">
+    </a>
+
+    <!-- photo.html 已移除 -->
+
+    <a href="internet.html" target="f2">
+      <img src="website.jpg" width="137" height="34" alt="">
+    </a>
+
+  </div>
+
+</body>
+</html>

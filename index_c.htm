@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>個人網頁(中文版)</title>
+
+  <style>
+    html,body{
+      height:100%;
+      margin:0;
+      background:#000;
+      overflow-x:hidden;
+    }
+
+    body{
+      display:flex;
+      flex-direction:column;
+    }
+
+    header{
+      flex:0 0 auto;
+      height:170px;
+      background:#000;
+      border-bottom:1px solid #222;
+      overflow:hidden;
+    }
+
+    main{
+      flex:1 1 auto;
+      min-height:0;
+      overflow:auto;
+      overflow-x:hidden;
+      background:#000;
+    }
+
+    iframe{
+      width:100%;
+      min-width:100%;
+      height:100%;
+      border:0;
+      display:block;
+    }
+
+    @media (max-width:768px){
+      header{height:220px}
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 上方導覽 -->
+  <header>
+    <iframe name="f1" src="f1.html" title="Navigation" scrolling="no"></iframe>
+  </header>
+
+  <!-- 下方內容 -->
+  <main>
+    <iframe name="f2" src="f2.html" title="Content"></iframe>
+  </main>
+
+</body>
+</html>

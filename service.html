@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Professional Service</title>
+
+<style>
+body{
+  background:#000;
+  color:#ffcc99;
+  font-family:"Century Gothic",Arial,sans-serif;
+  line-height:1.6;
+  margin:0;
+  padding:0 20px 40px 20px;
+}
+
+.section-title{
+  background:#ffcc99;
+  color:#000;
+  padding:6px 14px;
+  display:inline-block;
+  margin:20px 0 12px 0;
+  font-size:16px;
+}
+
+ul{
+  margin:0 0 30px 20px;
+  padding:0;
+}
+
+li{
+  margin-bottom:10px;
+}
+
+.item{
+  font-size:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="section-title">[ PROFESSIONAL SERVICE ]</div>
+
+<ul id="service-list"></ul>
+
+<div class="section-title">[ PROGRAM COMMITTEE & EDITORIAL SERVICE ]</div>
+
+<ul id="pc-list"></ul>
+
+<script>
+const serviceData = {
+  professional_service: [
+    { text:"Reviewer, Computer Methods and Programs in Biomedicine, 2016. (SCI)" },
+    { text:"Reviewer, International Journal of Biological Macromolecules, 2015. (SCI)" },
+    { text:"Reviewer, International Conference on Intelligent Computing (ICIC 2015), 20–23 August 2015, Fuzhou, China." },
+    { text:"Reviewer, Human Mutation, 2014. (SCI)" },
+    { text:"Reviewer, Austin Biometrics and Biostatistics, 2014." },
+    { text:"Reviewer, BMC Bioinformatics, 2014. (SCI)" },
+    { text:"Reviewer, BMC Genomics, 2013. (SCI)" },
+    { text:"Reviewer, Protein and Peptide Letters, 2013. (SCI)" },
+    { text:"Reviewer, Protein and Peptide Letters, 2012. (SCI)" },
+    { text:"Reviewer, Journal of Medical and Biological Engineering (JMBE), 2012. (SCI)" },
+    { text:"Reviewer, The 2nd International Conference on Engineering and Technology Innovation (ICETI 2012), 2–6 November 2012, Kaohsiung, Taiwan." },
+    { text:"Reviewer, Bioinformatics, 2012. (SCI)" },
+    { text:"Reviewer, BMC Systems Biology, 2012. (SCI)" },
+    { text:"Reviewer, IEEE International Symposium on Computer, Consumer and Control (IS3C 2012), 4–6 June 2012, Taichung, Taiwan." },
+    { text:"Reviewer, International Journal of Computer Mathematics, 2011. (SCI)" },
+    { text:"Reviewer, African Journal of Agricultural Research, 2011. (SCI)" },
+    { text:"Reviewer, PLoS Computational Biology, 2011. (SCI)" },
+    { text:"Reviewer, ISMB/ECCB 2011, 17–19 July 2011, Vienna, Austria." },
+    { text:"Reviewer, IEEE Congress on Evolutionary Computation (IEEE CEC 2011), 5–8 June 2011, New Orleans, USA." },
+    { text:"Reviewer, The 4th International Symposium on Bio- and Medical Informatics and Cybernetics (BMIC 2010), 29 June–2 July 2010, Orlando, Florida, USA." },
+    { text:"Reviewer, Computers in Biology and Medicine, 2010, Elsevier B.V. (SCI)" },
+    { text:"Reviewer, Special Session on Evolutionary Computation in Bioinformatics and Computational Biology, IEEE CEC 2010, 18–23 July 2010, Barcelona, Spain." },
+    { text:"Reviewer, International Strategic Partnerships in Research and Education (INSPIRE) Strategic Partnerships Awards, 2010, British Council." },
+    { text:"Reviewer, Bentham Science Publishers, 2009." },
+    { text:"Best Paper Award, Section on Enabling Technology, Workshop on Consumer Electronics (WCE 2009), 6 November 2009, Taichung, Taiwan." },
+    { text:"Reviewer, The 3rd International Symposium on Bio- and Medical Informatics and Cybernetics (BMIC 2009), 10–13 July 2009, Orlando, Florida, USA." },
+    { text:"Reviewer, IEEE International Symposium on Industrial Electronics (ISIE 2009), 5–8 July 2009, Seoul, Korea." }
+  ],
+
+  program_committee: [
+    { text:"Member of the Program Committee, PRIB 2014, 21–23 August 2014, Stockholm, Sweden." },
+    { text:"Member of the Program Committee, PRIB 2013 & CIBB 2013, 17–19 & 20–22 June 2013, Nice, France." },
+    { text:"Member of the Program Committee, IEEE IS3C 2012, 4–6 June 2012, Taichung, Taiwan." },
+    { text:"Proceedings Editor, ICC 2010, 14 November 2010, Changhua, Taiwan." },
+    { text:"Member of the Program Committee, BIOINFORMATICS 2010, 20–23 January 2010, Valencia, Spain." },
+    { text:"Member of the Program Committee, Special Session on Evolutionary Computation in Bioinformatics and Computational Biology, IEEE CEC 2009, 18–21 May 2009, Trondheim, Norway." }
+  ]
+};
+
+function renderList(data, elementId){
+  const ul = document.getElementById(elementId);
+  data.forEach(item=>{
+    const li = document.createElement("li");
+    li.className = "item";
+    li.textContent = item.text;
+    ul.appendChild(li);
+  });
+}
+
+renderList(serviceData.professional_service,"service-list");
+renderList(serviceData.program_committee,"pc-list");
+</script>
+
+</body>
+</html>
