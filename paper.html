@@ -7,11 +7,18 @@
 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 
 <style>
+#app {
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
 body{
   background:#000;
   color:#ffcc99;
   font-family:"Century Gothic",Arial,sans-serif;
   line-height:1.6;
+  margin: 0; 
+  padding: 0; 
 }
 
 .section-title{
@@ -23,9 +30,18 @@ body{
 }
 
 .filter-bar{
-  margin:20px 0;
-  font-size:14px;
+  font-size:18px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #000;
+  z-index: 100;
+  padding: 15px 20px;
+  border-bottom: 1px solid #444;
+  text-align: center;
 }
+
 
 .filter-bar button{
   background:#222;
@@ -34,10 +50,13 @@ body{
   padding:4px 10px;
   margin:3px;
   cursor:pointer;
+  font-size:16px;
+  font-family:"Century Gothic",Arial,sans-serif;
+  line-height:1;
 }
 
 .filter-bar button.active{
-  background:#ffcc99;
+  background:#fff;
   color:#000;
 }
 
@@ -54,6 +73,8 @@ body{
 .link{
   color:#ffcc99;
   text-decoration:none;
+  font-size:16px;
+  line-height:1;
 }
 
 .link:hover{
@@ -66,6 +87,7 @@ body{
 
 ol{
   padding-left:22px;
+  margin-top: 80px;
 }
 </style>
 </head>
@@ -74,14 +96,12 @@ ol{
 
 <div id="app">
 
-
 <div class="filter-bar">
   <strong>TYPE:</strong>
   <button :class="{active:filterType==='ALL'}" @click="filterType='ALL'">ALL</button>
   <button :class="{active:filterType==='JOURNAL'}" @click="filterType='JOURNAL'">JOURNAL PAPERS</button>
   <button :class="{active:filterType==='CONFERENCE'}" @click="filterType='CONFERENCE'">CONFERENCE PAPERS</button>
   
-  <!-- 關鍵字搜尋 -->
   &nbsp;&nbsp;
   <strong>KEYWORD:</strong>
   <input
@@ -94,16 +114,31 @@ ol{
       border:1px solid #444;
       padding:4px 8px;
       width:200px;
+      font-size:16px;
+      font-family:'Century Gothic',Arial,sans-serif;
+      line-height:1;
     "
   >
     
-  <br><br>
+  &nbsp;&nbsp;  
   <strong>YEAR:</strong>
-  <button :class="{active:filterYear==='ALL'}" @click="filterYear='ALL'">ALL</button>
-  <button v-for="y in years" :key="y" :class="{active:filterYear===y}" @click="filterYear=y">{{ y }}</button>
+  <select v-model="filterYear"
+    style="
+      background:#111;
+      color:#ffffff;
+      border:1px solid #444;
+      padding:4px 8px;
+      font-size:16px;
+      font-family:'Century Gothic',Arial,sans-serif;
+      margin-left:6px;
+    "
+  >
+    <option value="ALL">ALL</option>
+    <option v-for="y in years" :key="y" :value="y">
+      {{ y }}
+    </option>
+  </select>
 </div>
-
-
 
 <ol>
 <li v-for="p in filteredPapers" class="paper">
@@ -146,9 +181,7 @@ createApp({
       filterType:'ALL',
       filterYear:'ALL',
       keyword:'',
-
-
-      papers:[
+          papers:[
   {
     type:"JOURNAL",
     year:2016,
@@ -489,12 +522,8 @@ createApp({
   venue:"Proceedings of the 2002 International Computer Symposium (ICS 2002)",
   detail:"18–21 December 2002; Hualien, Taiwan. 2002, 2:1040–1046."
 }
-
-
-
-]/* ← 此處可繼續逐年往下貼 2014–2006 所有 Journal Papers */
-
-            
+        /* 其餘資料完全照你原本往下貼 */
+      ]
     }
   },
 
@@ -503,31 +532,30 @@ createApp({
       return [...new Set(this.papers.map(p=>p.year))].sort((a,b)=>b-a)
     },
     filteredPapers(){
-  return this.papers
-    .filter(p=>{
-      const matchType =
-        this.filterType === 'ALL' || p.type === this.filterType;
+      return this.papers
+        .filter(p=>{
+          const matchType =
+            this.filterType === 'ALL' || p.type === this.filterType;
 
-      const matchYear =
-        this.filterYear === 'ALL' || p.year === this.filterYear;
+          const matchYear =
+            this.filterYear === 'ALL' || p.year === this.filterYear;
 
-      const kw = this.keyword.trim().toLowerCase();
+          const kw = this.keyword.trim().toLowerCase();
 
-      const fullText =
-        p.authors.join(' ') + ' ' +
-        p.title + ' ' +
-        p.venue + ' ' +
-        (p.detail || '') + ' ' +
-        p.year;
+          const fullText =
+            p.authors.join(' ') + ' ' +
+            p.title + ' ' +
+            p.venue + ' ' +
+            (p.detail || '') + ' ' +
+            p.year;
 
-      const matchKeyword =
-        kw === '' || fullText.toLowerCase().includes(kw);
+          const matchKeyword =
+            kw === '' || fullText.toLowerCase().includes(kw);
 
-      return matchType && matchYear && matchKeyword;
-    })
-    .sort((a,b)=>b.year - a.year);
-}
-
+          return matchType && matchYear && matchKeyword;
+        })
+        .sort((a,b)=>b.year - a.year);
+    }
   }
 }).mount("#app");
 </script>
