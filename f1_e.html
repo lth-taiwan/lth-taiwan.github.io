@@ -1,46 +1,117 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="big5">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8"> <meta name="viewport" content="width=device-width,initial-scale=1">
   <base target="_self">
-  <title></title>
+  <title>Faculty Navigation</title>
 
   <style>
-    body{margin:0;background:#000;color:#000;text-align:center}
-    img{max-width:100%;height:auto}
-    .top{margin-top:18px;margin-bottom:0}
-    .lang{margin:0}
-    .nav{
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:center;
-      align-items:center;
-      gap:38px;
-      padding:6px 8px 14px 8px;
+    body { margin: 0; background: #000; color: #fff; text-align: center; font-family: sans-serif; }
+    img { max-width: 100%; height: auto; border: 0; display: block; }
+    .top { margin-top: 18px; margin-bottom: 0; }
+    .lang { margin: 10px 0; }
+    
+    .nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #000;
+      padding: 20px 0;
+      gap: 20px; /* 控制圖與圖之間的絕對距離 */
+      width: 100%;
+    }
+
+    .nav a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      /* 重要：增加底部 Padding 給底線空間，確保底線不會跑到圖上 */
+      padding: 5px 10px 15px 10px; 
+      position: relative;
+      transition: transform 0.2s;
+      outline: none;
+    }
+
+    .nav img {
+      height: 45px; /* 統一高度維持視覺重心 */
+      width: auto;
+      display: block;
+    }
+
+    /* 滑鼠移入圖片放大效果 */
+    .nav a:hover img {
+      filter: brightness(1.2);
+      transform: scale(1.05);
+    }
+  
+    /* 底線基礎設定：預設寬度為 0 (隱藏) */
+    .nav a::after {
+      content: "";
+      position: absolute;
+      bottom: 2px; /* 距離容器底部的距離 */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 3px;
+      background-color: #FFCC98; /* 主題金色 */
+      transition: width 0.3s ease-out; /* 底線伸長的動畫 */
+    }
+
+    /* 當 a 標籤擁有 .active 類別時，底線伸長到 80% */
+    .nav a.active::after {
+      width: 80% !important; /* 強制執行 */
+      display: block;
+    }
+
+    /* 滑鼠滑過時，底線先稍微出現 40% 作為提示 */
+    .nav a:hover::after {
+      width: 40%;
     }
   </style>
 </head>
 
-<body link="#000000" vlink="#000000" alink="#000000" text="#000000">
+<body>
 
   <p class="top" align="center">
-    <img border="0" src="welcome_e.jpg" alt="">
+    <img src="welcome_e.png" alt="Welcome" style="height: 60px";>
   </p>
 
-  <p class="lang" align="center" style="margin-bottom:10px">
+  <div style="position: fixed; top: 30px; right: 20px; z-index: 9999;">
     <a target="_parent" href="index_c.htm">
-      <img border="0" src="chinese_version.gif" alt="">
-    </a>
-  </p>
-
-  <div class="nav">
-    <a href="profile_e.html" target="f2_e"><img border="0" src="profile.jpg" width="124" height="28" alt=""></a>
-    <a href="career_e.html" target="f2_e"><img border="0" src="career.jpg" width="132" height="27" alt=""></a>
-    <a href="research_e.html" target="f2_e"><img border="0" src="research_title.jpg" width="175" height="27" alt=""></a>
-    <a href="paper.html" target="f2_e"><img border="0" src="publications.jpg" width="240" height="28" alt=""></a>
-    <a href="service.html" target="f2_e"><img border="0" src="others.jpg" width="125" height="28" alt=""></a>
+    <img src="taiwan-flag.png" class="h-8 cursor-pointer" style="height: 30px";></a>
   </div>
+  
+  
+  
+  <div class="nav">
+    <a href="profile_e.html" target="f2_e"><img src="profile.png" alt="Profile"></a>
+    <a href="career_e.html" target="f2_e"><img src="career.png" alt="Career"></a>
+    <a href="research_e.html" target="f2_e"><img src="research_title.png" alt="Research"></a>
+    <a href="paper.html" target="f2_e"><img src="publications_e.png" alt="Publications"></a>
+    <a href="service.html" target="f2_e"><img src="others.png" alt="Others"></a>
+  </div>
+
+  <script>
+    // 取得導覽列中所有的連結
+    const navLinks = document.querySelectorAll('.nav a');
+    
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        // 1. 移除所有連結的 active 標記
+        navLinks.forEach(l => l.classList.remove('active'));
+        // 2. 為當前點擊的連結加上 active 標記
+        this.classList.add('active');
+      });
+    });
+    
+    // 初始化：預設第一個連結 (Profile) 為選取狀態
+    window.onload = function() {
+      if (navLinks.length > 0) {
+        navLinks[0].classList.add('active');
+      }
+    };
+  </script>
 
 </body>
 </html>
