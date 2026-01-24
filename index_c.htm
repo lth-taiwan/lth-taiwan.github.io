@@ -20,10 +20,12 @@
 
     header{
       flex:0 0 auto;
-      height:185px;
+      height:155px;
       background:#000;
-      border-bottom:1px solid #222;
+      border-bottom:none;
       overflow:hidden;
+
+      padding-bottom: 0.2cm;  /* 在底部留出空間 */
     }
 
     main{
@@ -32,6 +34,8 @@
       overflow:auto;
       overflow-x:hidden;
       background:#000;
+      
+      
     }
 
     iframe{
@@ -43,7 +47,8 @@
     }
 
     @media (max-width:768px){
-      header{height:240px}
+      header{height:300px}
+      
     }
   </style>
 </head>
