@@ -21,11 +21,11 @@ html, body {
 }
 
 .profile {
-    max-width: 960px;
+    max-width: 800px; /*調整內容置中*/
     margin: 20px auto;
     padding: 0 16px;
     display: flex;
-    gap: 24px;
+    gap: 48px; /* ← 這個控制照片與右側整塊資訊的距離 */
     align-items: flex-start;
 }
 
@@ -44,7 +44,7 @@ html, body {
     display: grid;
     grid-template-columns: 140px 1fr;
     row-gap: 12px;
-    column-gap: 16px;
+    column-gap: 0px; /* ← 這個控制兩欄距離 */
 }
 
 .label {
@@ -58,9 +58,10 @@ html, body {
 
 a {
     color: var(--accent);
-    text-decoration: none;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
 }
-
 a:hover {
     text-decoration: underline;
 }
@@ -118,8 +119,8 @@ a:hover {
 
         <div class="label">Address</div>
         <div class="value">
-            <a href="http://mi7404.edublogs.org/" target="_blank">Department of Medical Informatics</a><br>
-            <a href="http://eng.tcu.edu.tw" target="_blank">Tzu Chi University</a><br>
+            Department of Medical Informatics<br>
+            <a href="https://tcueng.tcu.edu.tw" target="_blank">Tzu Chi University</a><br>
             701, Sec. 3, Zhongyang Rd. Hualien 97004,
             <a href="profile_taiwan.htm" target="f2_e">Taiwan</a>
         </div>
